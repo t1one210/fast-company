@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Qualitie = ({ color, name, _id }) => {
+const Qualitie = ({ color, name }) => {
     return (
-        <span key={_id} className={"bagde m-1 bg-" + color}>
+        <span className={"bagde m-1 bg-" + color}>
             {name}
         </span>
     );
@@ -11,8 +11,7 @@ const Qualitie = ({ color, name, _id }) => {
 
 Qualitie.propTypes = {
     color: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    _id: PropTypes.number
+    name: PropTypes.string.isRequired
 };
 
 export default Qualitie;

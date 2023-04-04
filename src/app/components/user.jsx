@@ -3,40 +3,55 @@ import Qualitie from "./qualitie";
 import BookMark from "./bookmark";
 import PropTypes from "prop-types";
 
-const User = (props) => {
+const User = ({
+    _id,
+    name,
+    qualities,
+    profession,
+    completedMeetings,
+    rate,
+    onDelete,
+    bookmark,
+    onToggleBookMark
+}) => {
     return (
-        <>
-            <td style={{ textAlign: "left" }}>{props.name}</td>
+        <tr>
+            <td>{name}</td>
             <td>
-                {props.qualities.map((quality) => (
-                    <Qualitie
-                        key={quality._id}
-                        color={quality.color}
-                        name={quality.name}
-                    />
+                {qualities.map((qual) => (
+                    <Qualitie key={qual._id} {...qual} />
                 ))}
             </td>
-            <td>{props.profession.name}</td>
-            <td>{props.completedMeetings}</td>
-            <td>{props.rate} /5</td>
+            <td>{profession.name}</td>
+            <td>{completedMeetings}</td>
+            <td>{rate} /5</td>
             <td>
                 <BookMark
-                    {...props}
-                    status={props.bookmark}
-                    onToggleBookMark={props.onToggleBookMark}
+                    status={bookmark}
+                    onClick={() => onToggleBookMark(_id)}
                 />
             </td>
-        </>
+            <td>
+                <button
+                    onClick={() => onDelete(_id)}
+                    className="btn btn-danger"
+                >
+                    delete
+                </button>
+            </td>
+        </tr>
     );
 };
 
 User.propTypes = {
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    qualities: PropTypes.array.isRequired,
+    qualities: PropTypes.array,
     profession: PropTypes.object.isRequired,
     completedMeetings: PropTypes.number.isRequired,
     rate: PropTypes.number.isRequired,
-    bookmark: PropTypes.bool.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    bookmark: PropTypes.bool,
     onToggleBookMark: PropTypes.func.isRequired
 };
 

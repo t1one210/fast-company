@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const SearchStatus = (length) => {
+const SearchStatus = ({ length }) => {
     if ((length > 4 && length < 13) || length % 10 === 1) {
         return (
             <span className="badge bg-primary">
@@ -15,6 +16,10 @@ const SearchStatus = (length) => {
         );
     }
     return <span className="badge bg-danger">Никто с тобой не тусанет</span>;
+};
+
+SearchStatus.propTypes = {
+    length: PropTypes.number
 };
 
 export default SearchStatus;
