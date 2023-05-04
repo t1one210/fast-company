@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import BookMark from "./bookmark";
 import QualitiesList from "./qualitiesList";
 import Table from "./table";
-import { Link } from "react-router-dom/cjs/react-router-dom";
+import { Link } from "react-router-dom";
 
 const UserTable = ({
     users,
@@ -18,9 +19,7 @@ const UserTable = ({
             path: "name",
             name: "Имя",
             component: (user) => (
-                <Link key={user._id} to={`users/${user._id}`}>
-                    {user.name}
-                </Link>
+                <Link to={`/users/${user._id}`}>{user.name}</Link>
             )
         },
         qualities: {
@@ -55,14 +54,12 @@ const UserTable = ({
         }
     };
     return (
-        <>
-            <Table
-                onSort={onSort}
-                selectedSort={selectedSort}
-                columns={columns}
-                data={users}
-            />
-        </>
+        <Table
+            onSort={onSort}
+            selectedSort={selectedSort}
+            columns={columns}
+            data={users}
+        />
     );
 };
 

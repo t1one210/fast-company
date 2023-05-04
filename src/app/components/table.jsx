@@ -1,7 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import TableBody from "./tableBody";
 import TableHeader from "./tableHeader";
-import PropTypes from "prop-types";
 
 const Table = ({ onSort, selectedSort, columns, data, children }) => {
     return (
@@ -15,12 +15,11 @@ const Table = ({ onSort, selectedSort, columns, data, children }) => {
         </table>
     );
 };
-
 Table.propTypes = {
-    data: PropTypes.array,
     onSort: PropTypes.func,
     selectedSort: PropTypes.object,
     columns: PropTypes.object,
+    data: PropTypes.array,
     children: PropTypes.array
 };
 
