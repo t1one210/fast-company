@@ -27,10 +27,9 @@ const MultiSelectField = ({ options, onChange, name, label, defaultValue }) => {
         </div>
     );
 };
-
 MultiSelectField.propTypes = {
-    onChange: PropTypes.func,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    onChange: PropTypes.func,
     name: PropTypes.string,
     label: PropTypes.string,
     defaultValue: PropTypes.array
