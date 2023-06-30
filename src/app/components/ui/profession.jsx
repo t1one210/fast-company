@@ -7,11 +7,9 @@ const Profession = ({ id }) => {
     const prof = getProfession(id);
     if (!isLoading) {
         return <p>{prof.name}</p>;
-    } else return "loding...";
+    } else return "Loading...";
 };
-
 Profession.propTypes = {
     id: PropTypes.string
 };
-
 export default Profession;

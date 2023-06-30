@@ -1,4 +1,4 @@
-import httpService from "./http.services";
+import httpService from "./http.service";
 
 const professionEndpoint = "profession/";
 
@@ -8,5 +8,4 @@ const professionService = {
         return data;
     }
 };
-
 export default professionService;
