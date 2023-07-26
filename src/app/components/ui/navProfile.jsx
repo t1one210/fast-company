@@ -1,8 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
-
-const NavProfile = () => {
+function NavProfile() {
     const { currentUser } = useAuth();
     const [isOpen, setOpen] = useState(false);
     const toggleMenu = () => {
@@ -32,6 +31,6 @@ const NavProfile = () => {
             </div>
         </div>
     );
-};
+}
 
 export default NavProfile;

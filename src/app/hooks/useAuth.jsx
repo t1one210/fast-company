@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 import axios from "axios";
 import userService from "../services/user.service";
-import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 import localStorageService, {
     setTokens
 } from "../services/localStorage.service";
+import { useHistory } from "react-router-dom";
 
 export const httpAuth = axios.create({
     baseURL: "https://identitytoolkit.googleapis.com/v1/",
@@ -21,7 +21,7 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setUser] = useState();
     const [error, setError] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
@@ -57,11 +57,19 @@ const AuthProvider = ({ children }) => {
     }
     function logOut() {
         localStorageService.removeAuthData();
-        setCurrentUser(null);
+        setUser(null);
         history.push("/");
     }
     function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    async function updateUserData(data) {
+        try {
+            const { content } = await userService.update(data);
+            setUser(content);
+        } catch (error) {
+            errorCatcher(error);
+        }
     }
     async function signUp({ email, password, ...rest }) {
         try {
@@ -97,25 +105,15 @@ const AuthProvider = ({ children }) => {
             }
         }
     }
-    async function updateUser(data) {
-        try {
-            console.log(data);
-            const { content } = await userService.update(data);
-            setCurrentUser(content);
-        } catch (error) {
-            errorCatcher(error);
-        }
-    }
     async function createUser(data) {
         try {
             const { content } = await userService.create(data);
             console.log(content);
-            setCurrentUser(content);
+            setUser(content);
         } catch (error) {
             errorCatcher(error);
         }
     }
-
     function errorCatcher(error) {
         const { message } = error.response.data;
         setError(message);
@@ -123,7 +121,7 @@ const AuthProvider = ({ children }) => {
     async function getUserData() {
         try {
             const { content } = await userService.getCurrentUser();
-            setCurrentUser(content);
+            setUser(content);
         } catch (error) {
             errorCatcher(error);
         } finally {
@@ -145,9 +143,9 @@ const AuthProvider = ({ children }) => {
     }, [error]);
     return (
         <AuthContext.Provider
-            value={{ signUp, currentUser, logIn, logOut, updateUser }}
+            value={{ signUp, logIn, currentUser, logOut, updateUserData }}
         >
-            {!isLoading ? children : "Loading"}
+            {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>
     );
 };

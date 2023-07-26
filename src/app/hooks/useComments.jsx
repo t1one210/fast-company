@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 import { useAuth } from "./useAuth";
 import { nanoid } from "nanoid";
 import commentService from "../services/comment.service";
@@ -18,11 +18,9 @@ export const CommentsProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const [comments, setComments] = useState([]);
     const [error, setError] = useState(null);
-
     useEffect(() => {
         getComments();
     }, [userId]);
-
     async function createComment(data) {
         const comment = {
             ...data,
@@ -37,8 +35,8 @@ export const CommentsProvider = ({ children }) => {
         } catch (error) {
             errorCatcher(error);
         }
+        console.log(comment);
     }
-
     async function getComments() {
         try {
             const { content } = await commentService.getComments(userId);
@@ -49,7 +47,10 @@ export const CommentsProvider = ({ children }) => {
             setLoading(false);
         }
     }
-
+    function errorCatcher(error) {
+        const { message } = error.response.data;
+        setError(message);
+    }
     async function removeComment(id) {
         try {
             const { content } = await commentService.removeComment(id);
@@ -68,12 +69,6 @@ export const CommentsProvider = ({ children }) => {
             setError(null);
         }
     }, [error]);
-
-    function errorCatcher(error) {
-        const { message } = error.response.data;
-        setError(message);
-    }
-
     return (
         <CommentsContext.Provider
             value={{ comments, createComment, isLoading, removeComment }}
